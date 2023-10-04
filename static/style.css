@@ -1,0 +1,181 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #F0F0F0;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    width: 100vw;
+    padding-block: 1.4rem;
+}
+
+.parent_box {
+    width: 92%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #D2E0FB;
+    border-radius: 1rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.left_box {
+    width: 30%;
+    height: 100%;
+    background: #E4F1FF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 3rem;
+    padding-inline: 2rem;
+    font-size: 20px;
+    gap: 2rem;
+}
+
+.left_box form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.left_box form div:first-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.6rem;
+}
+
+.left_box form div:first-child input {
+    width: 70%;
+    border-radius: 5px;
+    border: 2px solid #11394649;
+    outline: none;
+    padding: 0.4rem 0.3rem;
+    font-size: 1rem;
+}
+
+.temperature_range_form div:first-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin: auto; */
+}
+
+.temperature_range_form .temp_input_box{
+    width: 100% !important;
+    flex-basis: 1;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.weather_info {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    /* background-color: red; */
+}
+
+.weather_info .weather_condition {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-block-start: 2rem;
+}
+
+.weather_info .weather_condition .weather_condition_icon {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.8rem;
+}
+
+.weather_info .weather_condition .weather_condition_icon p {
+    position: relative;
+}
+
+.weather_info .weather_condition .weather_condition_icon p::after {
+    content: "°C";
+    width: 1px;
+    height: 100px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    /* transform: translate(-50%, -50%); */
+    font-size: 1.4rem;
+}
+
+.weather_info .weather_condition .weather_condition_icon img {
+    width: 150px;
+    height: auto;
+}
+
+.weather_info .weather_condition .weather_condition_icon p {
+    font-size: 4rem;
+    font-weight: 700;
+}
+
+.weather_condition_text p {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.weather_data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+    margin-block-start: 4rem;
+}
+
+.weather_data ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.weather_data ul li:first-child {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1F4172;
+}
+
+.right_box {
+    width: 70%;
+    height: 100%;
+    background: #AED2FF;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 1em;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                               Utility CLasses                              */
+/* -------------------------------------------------------------------------- */
+ul li {
+    list-style-type: none;
+}
