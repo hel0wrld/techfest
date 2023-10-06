@@ -1,4 +1,3 @@
-import sys
 import asyncio
 from uagents import Agent, Context 
 from flask import Flask, request
@@ -49,5 +48,5 @@ async def uagent():
     
     # alice.on_interval(period=10.0)     
         
-    alice.run()
+    alice.run(debug=True)
     return None
