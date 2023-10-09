@@ -1,0 +1,15 @@
+@alice.on_interval(period=3.0)
+async def samefun():
+    count += 1
+    price = ((requests.get(url)).json())['data']['amount']
+    print("price: ", price)
+    socketio.emit('my_response',
+                    {'data': 'Bitcoin current price (USD): ' + price, 'count': count})
+     
+
+url = 'https://api.coinbase.com/v2/prices/btc-usd/spot'
+
+def background_thread():
+    """Example of how to send server generated events to clients."""
+    print("im in background thread")
+    samefun()

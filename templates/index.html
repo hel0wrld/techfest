@@ -1,103 +1,70 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-
 <head>
-    <title>
-        Weather Information | {% if response %}
-        {{ response.location["name"] }}
-        {% endif %}
-    </title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/style.css">
+    <title>Flask-SocketIO Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            // Connect to the Socket.IO server.
+            // The connection URL has the following format, relative to the current page:
+            //     http[s]://<domain>:<port>[/<namespace>]
+            var socket = io();
+
+            // Event handler for new connections.
+            // The callback function is invoked when a connection with the
+            // server is established.
+            socket.on('connect', function() {
+                socket.emit('my_event', {data: 'I\'m connected!'});
+            });
+
+            // Event handler for server sent data.
+            // The callback function is invoked whenever the server emits data
+            // to the client. The data is then displayed in the "Received"
+            // section of the page.
+            socket.on('my_response', function(msg, cb) {
+                $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
+                if (cb)
+                    cb();
+            });
+
+            // Test response received from server is handled here
+            socket.on('test_response', function(msg) {
+                $('#log').append('<br>' + $('<div/>').text(msg.data).html());
+            })
+
+            // Broadcast response from server is handled here
+            socket.on('broadcast_response', function(msg) {
+                $('#log').append('<br>' + $('<div/>').text(msg.data).html());
+            })
+
+            // Handlers for the different forms in the page.
+            // These accept data from the user and send it to the server in a
+            // variety of ways
+            $('form#test').submit(function(event) {
+                socket.emit('test_message', {data: 'Test message sent'});
+                return false;
+            });
+            $('form#broadcast').submit(function(event) {
+                socket.emit('broadcast_message', {data: 'broadcast triggered'});
+                return false;
+            });
+        });
+    </script>
 </head>
-
 <body>
-
-    <div class="parent_box">
-        <div class="left_box">
-            <form action="/techfest" method="post">
-                <div>
-                    <label for="location">Location</label>
-                    <input type="text" id="location" name="location" required>
-                </div>
-                <!-- <div class="temperature_input_box">
-                    <div>
-                        <label for="upperTemp">Upper Temperature</label>
-                        <input class="upper_limit" "number" id="upperTemp" name="upperTemp" required>
-                    </div>
-                    <div>
-                        <label for="lowerTemp">Lower Temperature:</label>
-                        <input class="lower_limit" "number" id="lowerTemp" name="lowerTemp" required>
-                    </div>
-                </div>
-                <button type="button" id="fetchWeather">Fetch Weather</button> -->
-            </form>
-            <form action="/techfest/location/check_temperature" method="post" class="temperature_range_form">
-                <div>
-                    <div class="temp_input_box">
-                        <!-- <label for="upperTemp">Upper Temperature</label> -->
-                        <input class="upper_limit" "number" id="upperTemp" name="upperTemp"
-                            placeholder="Lower Temperature">
-                    </div>
-                    <div class="temp_input_box">
-                        <!-- <label for="lowerTemp">Lower Temperature:</label> -->
-                        <input class="lower_limit" "number" id="lowerTemp" name="lowerTemp"
-                            placeholder="Upper Temperature">
-                    </div>
-                </div>
-                <button type="submit" id="fetchWeather">Fetch Weather</button>
-            </form>
-            <div class="weather_info">
-                <!-- <p>5.05 PM, Mon, Nov 23, 2020</p> -->
-                <p>
-                    {% if response %}
-                    {{ response.location["localtime"] }}
-                    {% else %}
-                    -
-                    {% endif %}
-                </p>
-                <div class="weather_condition">
-                    <div class="weather_condition_icon">
-                        <img src="../static/cloud.svg" alt="cloudy">
-                        <p>
-                            {% if response %}
-                            {{ response.current["temp_c"] }}
-                            {% else %}
-                            -
-                            {% endif %}
-                        </p>
-                    </div>
-                    <div class="weather_condition_text">
-                        <p>Cloudy</p>
-                    </div>
-                </div>
-                <div class="weather_data">
-                    <ul>
-                        <li>
-                            Humidity
-                        </li>
-                        <li>45%</li>
-                    </ul>
-                    <ul>
-                        <li>
-                            Wind Speed
-                        </li>
-                        <li>19.2 km/j</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="right_box">
-            <div>
-                <h2> Graph</h2>
-            </div>
-            <div>
-                <h2> Table</h2>
-            </div>
-        </div>
-    </div>
-
+    <h1>Flask-SocketIO Test</h1>
+    <p>
+      Async mode is: <b>{{ async_mode }}</b><br>
+    </p>
+    <h2>Send:</h2>
+    <form id="test" method="POST" action="#">
+        <input type="submit" value="Test">
+    </form>
+    <form id="broadcast" method="POST" action="#">
+        <input type="submit" value="Broadcast">
+    </form>
+    <h2>Receive:</h2>
+    <div id="log"></div>
 </body>
-
 </html>

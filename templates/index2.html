@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Weather Information | {% if response %}
+        {{ response.location["name"] }}
+        {% endif %}
+    </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js" integrity="sha512-zoJXRvW2gC8Z0Xo3lBbao5+AS3g6YWr5ztKqaicua11xHo+AvE1b0lT9ODgrHTmNUxeCw0Ry4BGRYZfXu70weg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+    <div id="data"></div>
+    <script>
+        const socket = io();
+
+        socket.on('connect', function(data) {
+            console.log('Connected in html');
+            console.log('Data recieved: ', data);
+            socket.emit('connect_message', {data: 'I\'m connected!'});  
+        });
+
+        socket.on('fun1', function() {
+            socket.emit('fun1')
+        });
+
+        socket.on('message', function(data) {
+            console.log('Received message from the server:', data);
+        });
+    </script>
+    <div class="parent_box">
+        <div class="left_box">
+            <form action="/techfest" method="post">
+                <div>
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" required>
+                </div>
+                <!-- <div class="temperature_input_box">
+                    <div>
+                        <label for="upperTemp">Upper Temperature</label>
+                        <input class="upper_limit" "number" id="upperTemp" name="upperTemp" required>
+                    </div>
+                    <div>
+                        <label for="lowerTemp">Lower Temperature:</label>
+                        <input class="lower_limit" "number" id="lowerTemp" name="lowerTemp" required>
+                    </div>
+                </div>
+                <button type="button" id="fetchWeather">Fetch Weather</button> -->
+            </form>
+            <form action="/techfest/location/check_temperature" method="post" class="temperature_range_form">
+                <div>
+                    <div class="temp_input_box">
+                        <!-- <label for="upperTemp">Upper Temperature</label> -->
+                        <input class="upper_limit" "number" id="upperTemp" name="upperTemp"
+                            placeholder="Lower Temperature">
+                    </div>
+                    <div class="temp_input_box">
+                        <!-- <label for="lowerTemp">Lower Temperature:</label> -->
+                        <input class="lower_limit" "number" id="lowerTemp" name="lowerTemp"
+                            placeholder="Upper Temperature">
+                    </div>
+                </div>
+                <button type="submit" id="fetchWeather">Fetch Weather</button>
+            </form>
+            <div class="weather_info">
+                <!-- <p>5.05 PM, Mon, Nov 23, 2020</p> -->
+                <p>
+                    {% if response %}
+                    {{ response.location["localtime"] }}
+                    {% else %}
+                    -
+                    {% endif %}
+                </p>
+                <div class="weather_condition">
+                    <div class="weather_condition_icon">
+                        <img src="../static/cloud.svg" alt="cloudy">
+                        <p>
+                            {% if response %}
+                            {{ response.current["temp_c"] }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="weather_condition_text">
+                        <p>Cloudy</p>
+                    </div>
+                </div>
+                <div class="weather_data">
+                    <ul>
+                        <li>
+                            Humidity
+                        </li>
+                        <li>45%</li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Wind Speed
+                        </li>
+                        <li>19.2 km/j</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="right_box">
+            <div>
+                <h2> Graph</h2>
+            </div>
+            <div>
+                <h2> Table</h2>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
